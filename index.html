@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supermercado Club - Seu programa de fidelidade inteligente</title>
+    <title>Super Econômica - Clube de Pontos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
-        /* ================= CSS: Variáveis e Reset ================= */
+        /* ================= CSS: Identidade Visual Super Econômica (Versão 1.1) ================= */
         :root {
-            --primary: #10B981;
-            --primary-dark: #059669;
-            --primary-light: #34D399;
-            --secondary: #1E293B;
-            --accent: #F59E0B;
-            --bg-body: #F8FAFC;
+            --primary: #E63946;        /* Vermelho principal Super Econômica */
+            --primary-dark: #C5222F;   
+            --primary-light: #FF6B6B;
+            --secondary: #1D3557;      /* Azul institucional / marinho */
+            --secondary-light: #457B9D;
+            --accent: #FFB703;         /* Amarelo / Dourado para pontos e recompensas */
+            --accent-hover: #FB8500;
+            --bg-body: #F4F6F9;
             --bg-card: #FFFFFF;
-            --text-main: #334155;
-            --text-muted: #64748B;
-            --border: #E2E8F0;
-            --danger: #EF4444;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --info: #3B82F6;
+            --text-main: #2B2D42;
+            --text-muted: #8D99AE;
+            --border: #DEE2E6;
+            --danger: #D90429;
+            --success: #2A9D8F;
+            --warning: #F4A261;
+            --info: #3A86FF;
             --sidebar-width: 260px;
             --header-height: 70px;
-            --radius: 10px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
         }
 
@@ -37,7 +39,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
@@ -48,7 +50,6 @@
             overflow-x: hidden;
         }
 
-        /* ================= Layout Geral ================= */
         #app {
             display: flex;
             width: 100%;
@@ -74,36 +75,42 @@
             display: flex;
             align-items: center;
             padding: 0 20px;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.15);
             gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .sidebar-brand i {
-            font-size: 24px;
-            color: var(--primary);
+        .sidebar-brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
         }
 
         .sidebar-brand h1 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: 0.5px;
+            color: #fff;
         }
 
         .sidebar-brand span {
             display: block;
             font-size: 10px;
-            color: var(--text-muted);
+            color: var(--accent);
+            font-weight: 500;
         }
 
         .sidebar-menu {
             list-style: none;
-            padding: 20px 0;
+            padding: 15px 0;
             overflow-y: auto;
             flex: 1;
         }
 
         .sidebar-menu::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
         }
         .sidebar-menu::-webkit-scrollbar-thumb {
             background: rgba(255,255,255,0.2);
@@ -114,28 +121,28 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: #94A3B8;
+            color: #A8B2D1;
             text-decoration: none;
             gap: 14px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             transition: var(--transition);
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
         }
 
         .sidebar-menu li a:hover, .sidebar-menu li.active a {
             color: #fff;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
             border-left-color: var(--primary);
         }
 
         .sidebar-menu li a i {
-            font-size: 16px;
+            font-size: 15px;
             width: 20px;
             text-align: center;
         }
 
-        /* Main Content Wrapper */
+        /* Main Wrapper */
         .main-wrapper {
             margin-left: var(--sidebar-width);
             flex: 1;
@@ -174,7 +181,7 @@
             background: transparent;
             outline: none;
             width: 100%;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .header-right {
@@ -188,17 +195,22 @@
             cursor: pointer;
             font-size: 18px;
             color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .notification-bell:hover {
+            color: var(--primary);
         }
 
         .notification-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger);
+            top: -6px;
+            right: -6px;
+            background: var(--primary);
             color: #fff;
             font-size: 10px;
-            padding: 2px 5px;
+            padding: 2px 6px;
             border-radius: 10px;
+            font-weight: 600;
         }
 
         .user-profile {
@@ -209,8 +221,8 @@
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: var(--primary);
             color: #fff;
@@ -218,12 +230,15 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
+            font-size: 14px;
+            border: 2px solid var(--accent);
         }
 
         /* Conteúdo das Abas */
         .content-area {
             padding: 30px;
             flex: 1;
+            padding-bottom: 90px; /* espaço extra para navegação mobile */
         }
 
         .tab-content {
@@ -232,20 +247,20 @@
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ================= Componentes UI ================= */
+        /* Componentes UI Customizados */
         .page-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--secondary);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -255,7 +270,7 @@
             background: var(--primary);
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: var(--radius);
             font-weight: 600;
             cursor: pointer;
@@ -263,30 +278,44 @@
             align-items: center;
             gap: 8px;
             transition: var(--transition);
-            font-size: 14px;
+            font-size: 13px;
             text-decoration: none;
+            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.2);
         }
 
         .btn:hover {
             background: var(--primary-dark);
+            transform: translateY(-1px);
         }
 
         .btn-outline {
             background: transparent;
             border: 1px solid var(--border);
             color: var(--text-main);
+            box-shadow: none;
         }
 
         .btn-outline:hover {
             background: var(--bg-body);
-            border-color: var(--text-muted);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--secondary);
+            box-shadow: 0 4px 10px rgba(255, 183, 3, 0.3);
+        }
+        .btn-accent:hover {
+            background: var(--accent-hover);
+            color: #fff;
         }
 
         .btn-danger {
             background: var(--danger);
         }
         .btn-danger:hover {
-            background: #dc2626;
+            background: #b7031f;
         }
 
         .cards-grid {
@@ -298,31 +327,50 @@
 
         .card-stat {
             background: var(--bg-card);
-            padding: 20px;
+            padding: 22px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
         }
 
+        .card-stat::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .card-stat:nth-child(2)::after { background: var(--secondary); }
+        .card-stat:nth-child(3)::after { background: var(--accent); }
+        .card-stat:nth-child(4)::after { background: var(--success); }
+
         .card-stat .icon-box {
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            background: rgba(16, 185, 129, 0.1);
+            font-size: 18px;
+            background: rgba(230, 57, 70, 0.1);
             color: var(--primary);
+            margin-bottom: 5px;
         }
 
         .card-stat h4 {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .card-stat .value {
@@ -355,7 +403,7 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th, td {
@@ -364,38 +412,39 @@
         }
 
         th {
-            background: #F8FAFC;
+            background: #F8F9FA;
             font-weight: 600;
             color: var(--text-muted);
         }
 
         tr:hover td {
-            background: #F9FAFB;
+            background: #FAFAFC;
         }
 
         .badge {
-            padding: 5px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
             display: inline-block;
         }
 
-        .badge-bronze { background: #FDE68A; color: #92400E; }
-        .badge-prata { background: #E2E8F0; color: #475569; }
-        .badge-ouro { background: #FEF08A; color: #854D0E; }
-        .badge-diamante { background: #BAE6FD; color: #0369A1; }
-        .badge-active { background: #D1FAE5; color: #065F46; }
-        .badge-inactive { background: #FEE2E2; color: #991B1B; }
+        .badge-bronze { background: #E6CCB2; color: #7F5539; }
+        .badge-prata { background: #E9ECEF; color: #495057; }
+        .badge-ouro { background: rgba(255, 183, 3, 0.2); color: #B57F00; border: 1px solid var(--accent); }
+        .badge-diamante { background: rgba(58, 134, 255, 0.15); color: #1D4ED8; border: 1px solid var(--info); }
+        .badge-active { background: rgba(42, 157, 143, 0.15); color: #1E7E6A; }
+        .badge-inactive { background: rgba(217, 4, 41, 0.1); color: var(--danger); }
 
-        /* Formulários e Modais */
+        /* Modais */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(29, 53, 87, 0.6);
+            backdrop-filter: blur(3px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -413,15 +462,16 @@
         .modal {
             background: var(--bg-card);
             width: 100%;
-            max-width: 600px;
+            max-width: 580px;
             border-radius: var(--radius);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             transform: scale(0.95);
             transition: var(--transition);
             max-height: 90vh;
             display: flex;
             flex-direction: column;
+            border-top: 5px solid var(--primary);
         }
 
         .modal-overlay.active .modal {
@@ -430,7 +480,7 @@
 
         .modal-header {
             padding: 20px;
-            background: #F8FAFC;
+            background: #F8F9FA;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
@@ -449,7 +499,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            background: #F8FAFC;
+            background: #F8F9FA;
         }
 
         .form-group {
@@ -464,9 +514,9 @@
 
         label {
             display: block;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
             color: var(--secondary);
         }
 
@@ -475,7 +525,7 @@
             padding: 10px 14px;
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             transition: var(--transition);
             background: #fff;
@@ -483,14 +533,14 @@
 
         input:focus, select:focus, textarea:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
         }
 
         /* Toast Notification */
         #toast-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -500,20 +550,21 @@
         .toast {
             background: var(--secondary);
             color: #fff;
-            padding: 12px 20px;
+            padding: 14px 20px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             gap: 12px;
             min-width: 280px;
             animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            border-left: 5px solid var(--accent);
         }
 
-        .toast.success { border-left: 4px solid var(--success); }
-        .toast.error { border-left: 4px solid var(--danger); }
-        .toast.warning { border-left: 4px solid var(--warning); }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.warning { border-left-color: var(--warning); }
 
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
@@ -523,7 +574,7 @@
             to { opacity: 0; transform: translateY(10px); }
         }
 
-        /* Grid de Gráficos e Recompensas */
+        /* Gráficos e Recompensas */
         .charts-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -541,7 +592,7 @@
 
         .rewards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
         }
 
@@ -553,52 +604,130 @@
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
+            transition: var(--transition);
+        }
+        .reward-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .reward-img {
-            height: 140px;
-            background: #E2E8F0;
+            height: 130px;
+            background: linear-gradient(135deg, var(--secondary), #2B2D42);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            color: var(--text-muted);
+            font-size: 45px;
+            color: var(--accent);
+            position: relative;
         }
 
         .reward-body {
-            padding: 15px;
+            padding: 18px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* Área do Cliente Específica */
-        .client-portal {
+        /* Cartão de Fidelidade Digital (Super Econômica) */
+        .digital-card {
             background: linear-gradient(135deg, var(--secondary), #0F172A);
             color: #fff;
-            padding: 30px;
-            border-radius: var(--radius);
-            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(29, 53, 87, 0.3);
+            border: 1px solid rgba(255,183,3,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+            margin-bottom: 25px;
+        }
+        .digital-card::before {
+            content: '';
+            position: absolute;
+            right: -40px;
+            bottom: -40px;
+            width: 180px;
+            height: 180px;
+            background: rgba(230,57,70,0.15);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .card-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            z-index: 2;
+        }
+        .card-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+        }
+        .card-brand span {
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        .card-body-info {
+            z-index: 2;
+            margin: 15px 0;
+        }
+        .card-points-display {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 2px;
+        }
+        .card-footer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 2;
+            font-size: 12px;
+            color: #A8B2D1;
         }
 
-        .portal-points-box {
-            background: rgba(255,255,255,0.1);
-            padding: 20px 30px;
-            border-radius: var(--radius);
-            text-align: center;
-            backdrop-filter: blur(5px);
+        /* Menu inferior Mobile */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            height: 65px;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
         }
-
-        .portal-points-box h2 {
-            font-size: 36px;
-            color: var(--primary-light);
-            margin-top: 5px;
+        .mobile-bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 10px;
+            gap: 3px;
+            transition: var(--transition);
+        }
+        .mobile-bottom-nav a i {
+            font-size: 18px;
+        }
+        .mobile-bottom-nav a.active, .mobile-bottom-nav a:hover {
+            color: var(--primary);
         }
 
         /* Responsividade */
@@ -615,6 +744,19 @@
             .charts-grid {
                 grid-template-columns: 1fr;
             }
+            .mobile-bottom-nav {
+                display: flex;
+            }
+            .header-search {
+                width: 180px;
+            }
+            header.header {
+                padding: 0 15px;
+            }
+            .content-area {
+                padding: 15px;
+                padding-bottom: 80px;
+            }
         }
     </style>
 </head>
@@ -622,10 +764,10 @@
     <div id="app">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
-                <i class="fa-solid fa-store"></i>
+                <img src="mascote.jpg" alt="Logo Super Econômica">
                 <div>
-                    <h1>SUPERMERCADO CLUB</h1>
-                    <span>Fidelidade Inteligente</span>
+                    <h1>SUPER ECONÔMICA</h1>
+                    <span>Clube de Pontos v1.1</span>
                 </div>
             </div>
             <ul class="sidebar-menu">
@@ -634,11 +776,11 @@
                 <li><a href="#" onclick="switchTab('purchases', event)"><i class="fa-solid fa-cash-register"></i> Registrar Compra</a></li>
                 <li><a href="#" onclick="switchTab('rewards', event)"><i class="fa-solid fa-gift"></i> Recompensas</a></li>
                 <li><a href="#" onclick="switchTab('redemptions', event)"><i class="fa-solid fa-ticket"></i> Resgates</a></li>
-                <li><a href="#" onclick="switchTab('campaigns', event)"><i class="fa-solid fa-bullhorn"></i> Campanhas</a></li>
+                <li><a href="#" onclick="switchTab('campaigns', event)"><i class="fa-solid fa-bullhorn"></i> Campanhas & Ofertas</a></li>
                 <li><a href="#" onclick="switchTab('coupons', event)"><i class="fa-solid fa-percent"></i> Cupons</a></li>
                 <li><a href="#" onclick="switchTab('products', event)"><i class="fa-solid fa-boxes-stacked"></i> Produtos & Pontos</a></li>
                 <li><a href="#" onclick="switchTab('reports', event)"><i class="fa-solid fa-chart-line"></i> Relatórios</a></li>
-                <li><a href="#" onclick="switchTab('clientPortal', event)"><i class="fa-solid fa-user-circle"></i> Área do Cliente</a></li>
+                <li><a href="#" onclick="switchTab('clientPortal', event)"><i class="fa-solid fa-user-shield"></i> Área do Cliente</a></li>
                 <li><a href="#" onclick="switchTab('integrations', event)"><i class="fa-solid fa-plug"></i> Integrações PDV</a></li>
                 <li><a href="#" onclick="switchTab('settings', event)"><i class="fa-solid fa-gear"></i> Configurações</a></li>
             </ul>
@@ -646,26 +788,26 @@
 
         <div class="main-wrapper">
             <header class="header">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <button class="btn btn-outline" onclick="toggleMobileMenu()" style="padding: 8px 12px; display: none;" id="menu-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="btn btn-outline" onclick="toggleMobileMenu()" style="padding: 6px 10px;"><i class="fa-solid fa-bars"></i></button>
                     <div class="header-search">
                         <i class="fa-solid fa-search" style="color: var(--text-muted)"></i>
-                        <input type="text" id="global-search" placeholder="Pesquisar cliente por CPF ou Nome..." onkeyup="handleGlobalSearch(event)">
+                        <input type="text" id="global-search" placeholder="Buscar CPF ou nome..." onkeyup="handleGlobalSearch(event)">
                     </div>
                 </div>
                 <div class="header-right">
-                    <div class="notification-bell" onclick="openNotificationsModal()">
+                    <div class="notification-bell" onclick="openNotificationsModal()" title="Notificações">
                         <i class="fa-solid fa-bell"></i>
                         <span class="notification-badge" id="notif-count">4</span>
                     </div>
-                    <button class="btn btn-outline" onclick="resetDemoData()" title="Restaurar Dados Demonstração" style="font-size: 12px; padding: 6px 10px;">
+                    <button class="btn btn-outline" onclick="resetDemoData()" title="Restaurar Demonstração" style="font-size: 11px; padding: 6px 10px;">
                         <i class="fa-solid fa-rotate"></i> Restaurar Demo
                     </button>
                     <div class="user-profile">
-                        <div class="user-avatar" id="current-user-initials">AD</div>
+                        <div class="user-avatar" id="current-user-initials">SE</div>
                         <div>
-                            <div style="font-size: 13px; font-weight: 600;" id="current-user-name">Admin Master</div>
-                            <div style="font-size: 11px; color: var(--text-muted);" id="current-user-role">Administrador</div>
+                            <div style="font-size: 12px; font-weight: 600;" id="current-user-name">Supervisão SE</div>
+                            <div style="font-size: 10px; color: var(--text-muted);" id="current-user-role">Administrador</div>
                         </div>
                     </div>
                 </div>
@@ -676,7 +818,7 @@
                 <div id="tab-dashboard" class="tab-content active">
                     <div class="page-title">
                         <span>Dashboard Administrativo</span>
-                        <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);" id="dashboard-date"></span>
+                        <span style="font-size: 13px; font-weight: normal; color: var(--text-muted);" id="dashboard-date"></span>
                     </div>
 
                     <div class="cards-grid">
@@ -686,17 +828,17 @@
                             <div class="value" id="stat-total-customers">0</div>
                         </div>
                         <div class="card-stat">
-                            <div class="icon-box" style="background: rgba(59, 130, 246, 0.1); color: var(--info);"><i class="fa-solid fa-coins"></i></div>
+                            <div class="icon-box" style="background: rgba(58, 134, 255, 0.1); color: var(--info);"><i class="fa-solid fa-coins"></i></div>
                             <h4>Pontos Distribuídos</h4>
                             <div class="value" id="stat-total-points">0</div>
                         </div>
                         <div class="card-stat">
-                            <div class="icon-box" style="background: rgba(245, 158, 11, 0.1); color: var(--accent);"><i class="fa-solid fa-ticket"></i></div>
+                            <div class="icon-box" style="background: rgba(255, 183, 3, 0.15); color: #B57F00;"><i class="fa-solid fa-ticket"></i></div>
                             <h4>Pontos Resgatados</h4>
                             <div class="value" id="stat-redeemed-points">0</div>
                         </div>
                         <div class="card-stat">
-                            <div class="icon-box" style="background: rgba(239, 68, 68, 0.1); color: var(--danger);"><i class="fa-solid fa-cash-register"></i></div>
+                            <div class="icon-box" style="background: rgba(42, 157, 143, 0.1); color: var(--success);"><i class="fa-solid fa-cash-register"></i></div>
                             <h4>Valor Movimentado</h4>
                             <div class="value" id="stat-total-sales">R$ 0,00</div>
                         </div>
@@ -704,27 +846,27 @@
 
                     <div class="charts-grid">
                         <div class="chart-card">
-                            <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--secondary);">Evolução de Pontos e Compras (Últimos Meses)</h3>
+                            <h3 style="font-size: 15px; margin-bottom: 15px; color: var(--secondary);">Evolução de Pontos (Super Econômica)</h3>
                             <canvas id="chartEvolucao" height="120"></canvas>
                         </div>
                         <div class="chart-card">
-                            <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--secondary);">Níveis de Clientes</h3>
+                            <h3 style="font-size: 15px; margin-bottom: 15px; color: var(--secondary);">Níveis de Fidelidade</h3>
                             <canvas id="chartNiveis" height="120"></canvas>
                         </div>
                     </div>
 
                     <div class="table-container">
                         <div class="table-header">
-                            <h3 style="font-size: 16px; color: var(--secondary);">Últimas Compras Registradas</h3>
+                            <h3 style="font-size: 15px; color: var(--secondary);">Últimas Compras Identificadas</h3>
                         </div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Cupom / ID</th>
+                                    <th>Cupom / PDV</th>
                                     <th>Cliente (CPF)</th>
                                     <th>Data</th>
                                     <th>Valor</th>
-                                    <th>Pontos Gerados</th>
+                                    <th>Pontos Ganhos</th>
                                     <th>Operador</th>
                                 </tr>
                             </thead>
@@ -742,8 +884,8 @@
 
                     <div class="table-container">
                         <div class="table-header">
-                            <input type="text" id="customer-search-input" placeholder="Filtrar por nome ou CPF..." onkeyup="filterCustomers()" style="max-width: 300px;">
-                            <span style="font-size: 13px; color: var(--text-muted);" id="customer-count-label">Total: 0 clientes</span>
+                            <input type="text" id="customer-search-input" placeholder="Filtrar por nome ou CPF..." onkeyup="filterCustomers()" style="max-width: 280px;">
+                            <span style="font-size: 12px; color: var(--text-muted);" id="customer-count-label">Total: 0 clientes</span>
                         </div>
                         <table>
                             <thead>
@@ -764,10 +906,10 @@
 
                 <div id="tab-purchases" class="tab-content">
                     <div class="page-title">
-                        <span>Frente de Caixa / Registro de Compra</span>
+                        <span>Frente de Caixa / Registrar Compra</span>
                     </div>
 
-                    <div style="background: var(--bg-card); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); max-width: 700px; box-shadow: var(--shadow);">
+                    <div style="background: var(--bg-card); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); max-width: 680px; box-shadow: var(--shadow);">
                         <form id="purchase-form" onsubmit="registerPurchase(event)">
                             <div class="form-row">
                                 <div class="form-group">
@@ -779,7 +921,7 @@
                                     <input type="text" id="p-cupom" placeholder="Ex: CUP-99882" required>
                                 </div>
                             </div>
-                            <div id="purchase-customer-info" style="background: #F1F5F9; padding: 10px 15px; border-radius: var(--radius); margin-bottom: 15px; font-size: 13px; display: none;">
+                            <div id="purchase-customer-info" style="background: #EBF4F6; padding: 12px 15px; border-radius: var(--radius); margin-bottom: 15px; font-size: 13px; display: none; border-left: 4px solid var(--secondary);">
                                 Cliente: <strong id="p-c-name">-</strong> | Nível: <strong id="p-c-level">-</strong> | Saldo Atual: <strong id="p-c-balance">-</strong>
                             </div>
                             <div class="form-row">
@@ -793,7 +935,7 @@
                                         <option value="Dinheiro">Dinheiro</option>
                                         <option value="Cartão Crédito">Cartão de Crédito</option>
                                         <option value="Cartão Débito">Cartão de Débito</option>
-                                        <option value="PIX">PIX</option>
+                                        <option value="PIX">PIX Super Econômica</option>
                                         <option value="Vale Alimentação">Vale Alimentação</option>
                                     </select>
                                 </div>
@@ -801,25 +943,25 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Loja / Caixa</label>
-                                    <input type="text" id="p-loja" value="Supermercado Matriz - Caixa 03">
+                                    <input type="text" id="p-loja" value="Super Econômica Matriz - Caixa 02">
                                 </div>
                                 <div class="form-group">
                                     <label>Operador</label>
-                                    <input type="text" id="p-operador" value="Carlos Silva">
+                                    <input type="text" id="p-operador" value="Mariana Atendente">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Pontos Estimados para esta Compra</label>
-                                <div style="font-size: 20px; font-weight: 700; color: var(--primary);" id="p-estimated-points">0 Pontos</div>
+                                <label>Pontos Estimados (Regra: R$ 1 = 1 Ponto)</label>
+                                <div style="font-size: 22px; font-weight: 700; color: var(--primary);" id="p-estimated-points">0 Pontos</div>
                             </div>
-                            <button type="submit" class="btn" style="width: 100%; justify-content: center; padding: 12px;"><i class="fa-solid fa-check-circle"></i> Finalizar e Gerar Pontos</button>
+                            <button type="submit" class="btn" style="width: 100%; justify-content: center; padding: 12px;"><i class="fa-solid fa-check-circle"></i> Finalizar e Creditar Pontos</button>
                         </form>
                     </div>
                 </div>
 
                 <div id="tab-rewards" class="tab-content">
                     <div class="page-title">
-                        <span>Recompensas Disponíveis</span>
+                        <span>Vitrine de Recompensas</span>
                         <button class="btn" onclick="openRewardModal()"><i class="fa-solid fa-plus"></i> Nova Recompensa</button>
                     </div>
                     <div class="rewards-grid" id="rewards-grid-container">
@@ -828,7 +970,7 @@
 
                 <div id="tab-redemptions" class="tab-content">
                     <div class="page-title">
-                        <span>Controle de Resgates Realizados</span>
+                        <span>Controle de Resgates</span>
                     </div>
                     <div class="table-container">
                         <table>
@@ -851,7 +993,7 @@
 
                 <div id="tab-campaigns" class="tab-content">
                     <div class="page-title">
-                        <span>Campanhas Promocionais & Multiplicadores</span>
+                        <span>Campanhas & Ofertas Exclusivas</span>
                         <button class="btn" onclick="openCampaignModal()"><i class="fa-solid fa-bullhorn"></i> Nova Campanha</button>
                     </div>
                     <div class="table-container">
@@ -895,7 +1037,7 @@
 
                 <div id="tab-products" class="tab-content">
                     <div class="page-title">
-                        <span>Cadastro de Produtos & Pontuação Especial</span>
+                        <span>Produtos & Pontuação Especial</span>
                         <button class="btn" onclick="openProductModal()"><i class="fa-solid fa-box"></i> Novo Produto</button>
                     </div>
                     <div class="table-container">
@@ -917,7 +1059,7 @@
 
                 <div id="tab-reports" class="tab-content">
                     <div class="page-title">
-                        <span>Relatórios Analíticos do Sistema</span>
+                        <span>Relatórios Analíticos</span>
                         <div style="display: flex; gap: 10px;">
                             <button class="btn btn-outline" onclick="exportReport('CSV')"><i class="fa-solid fa-file-csv"></i> CSV</button>
                             <button class="btn btn-outline" onclick="exportReport('PDF')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
@@ -933,13 +1075,13 @@
                             <div class="value" id="rep-total-resgates">0</div>
                         </div>
                         <div class="card-stat">
-                            <h4>Taxa de Engajamento</h4>
-                            <div class="value">78.5%</div>
+                            <h4>Taxa de Fidelização</h4>
+                            <div class="value">82.4%</div>
                         </div>
                     </div>
                     <div class="table-container">
                         <div class="table-header">
-                            <h3 style="font-size: 16px; color: var(--secondary);">Ranking dos Clientes Mais Ativos</h3>
+                            <h3 style="font-size: 15px; color: var(--secondary);">Clientes Mais Ativos (Ranking VIP)</h3>
                         </div>
                         <table>
                             <thead>
@@ -959,39 +1101,47 @@
 
                 <div id="tab-clientPortal" class="tab-content">
                     <div class="page-title">
-                        <span>Portal do Consumidor (Visualização do Cliente)</span>
+                        <span>Portal do Consumidor (Super Econômica)</span>
                         <select id="portal-customer-select" onchange="loadClientPortalData(this.value)" style="max-width: 280px;">
                             </select>
                     </div>
 
-                    <div class="client-portal">
-                        <div>
-                            <span style="font-size: 14px; color: var(--text-muted);">Bem-vindo(a) de volta,</span>
-                            <h2 id="portal-client-name" style="font-size: 24px; margin-top: 5px;">-</h2>
-                            <p style="font-size: 13px; color: #94A3B8; margin-top: 5px;">CPF: <span id="portal-client-cpf">-</span> | Nível: <span id="portal-client-level" class="badge badge-bronze">-</span></p>
+                    <div class="digital-card">
+                        <div class="card-top">
+                            <div class="card-brand">
+                                <img src="mascote.jpg" alt="Logo">
+                                <span>SUPER ECONÔMICA</span>
+                            </div>
+                            <span class="badge badge-ouro" id="portal-client-level-badge">NÍVEL OURO</span>
                         </div>
-                        <div class="portal-points-box">
-                            <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Seu Saldo Atual</span>
-                            <h2 id="portal-client-points">0 PTS</h2>
+                        <div class="card-body-info">
+                            <div style="font-size: 12px; color: #A8B2D1;">CARTÃO FIDELIDADE INTELIGENTE</div>
+                            <div style="font-size: 20px; font-weight: 600;" id="portal-client-name">-</div>
+                            <div class="card-points-display" id="portal-client-points">0 PTS</div>
+                        </div>
+                        <div class="card-footer-info">
+                            <div>CPF: <span id="portal-client-cpf">-</span></div>
+                            <div style="font-size: 10px; color: var(--accent);">Quanto mais você compra, mais você ganha!</div>
                         </div>
                     </div>
 
-                    <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-                        <div>
-                            <h3 style="font-size: 16px; color: var(--secondary); margin-bottom: 5px;">Seu Cartão Virtual & QR Code</h3>
-                            <p style="font-size: 13px; color: var(--text-muted);">Apresente este QR Code no caixa do supermercado para acumular pontos instantaneamente.</p>
+                    <div style="background: var(--bg-card); padding: 25px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 16px; color: var(--secondary); margin-bottom: 8px;">Apresente no Caixa</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Mostre seu QR Code para acumular pontos instantaneamente em sua compra.</p>
+                            <div style="font-size: 12px; font-weight: 600; color: var(--primary);" id="portal-progress-text">Você está a 550 pontos do próximo nível!</div>
                         </div>
-                        <div id="client-qrcode-box" style="padding: 10px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius);"></div>
+                        <div id="client-qrcode-box" style="padding: 10px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); display: flex; justify-content: center;"></div>
                     </div>
 
-                    <h3 style="font-size: 18px; margin-bottom: 15px; color: var(--secondary);">Extrato de Pontos (Conta Fidelidade)</h3>
+                    <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--secondary);">Extrato de Pontos</h3>
                     <div class="table-container">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Data</th>
-                                    <th>Descrição / Histórico</th>
-                                    <th>Entrada / Saída</th>
+                                    <th>Histórico / Descrição</th>
+                                    <th>Movimentação</th>
                                 </tr>
                             </thead>
                             <tbody id="portal-statement-body">
@@ -1005,33 +1155,33 @@
                         <span>Integração com Frente de Caixa (PDV) e ERP</span>
                     </div>
                     <div style="background: var(--bg-card); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow);">
-                        <h3 style="font-size: 16px; color: var(--secondary); margin-bottom: 10px;">Credenciais de API e Webhooks</h3>
-                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Utilize estes dados para integrar seu sistema de frente de caixa (SAT, NFC-e, Linx, Autcom, etc.) ao Supermercado Club.</p>
+                        <h3 style="font-size: 15px; color: var(--secondary); margin-bottom: 10px;">Credenciais de API e Webhooks (Super Econômica)</h3>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Integre sua frente de caixa (NFC-e, SAT, Autcom, Linx) para pontuação automática em tempo real.</p>
                         
                         <div class="form-group">
                             <label>API Key de Acesso</label>
-                            <input type="text" value="sk_live_99f8a7bc726102834d91e" readonly>
+                            <input type="text" value="sk_live_supereconomica_9982736150" readonly>
                         </div>
                         <div class="form-group">
-                            <label>URL do Webhook de Compras</label>
-                            <input type="text" value="https://api.supermercadoclub.com.br/v1/purchases/webhook" readonly>
+                            <label>URL do Webhook</label>
+                            <input type="text" value="https://api.supereconomica.com.br/v1/club/webhook" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Status da Integração</label>
-                            <span class="badge badge-active">Ativo & Sincronizado</span>
+                            <label>Status</label>
+                            <span class="badge badge-active">Ativo & Sincronizado com Matriz</span>
                         </div>
                     </div>
                 </div>
 
                 <div id="tab-settings" class="tab-content">
                     <div class="page-title">
-                        <span>Configurações Gerais do Programa</span>
+                        <span>Configurações Gerais</span>
                     </div>
-                    <div style="background: var(--bg-card); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); max-width: 700px;">
+                    <div style="background: var(--bg-card); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); max-width: 680px;">
                         <form onsubmit="saveSettings(event)">
                             <div class="form-group">
-                                <label>Nome do Supermercado</label>
-                                <input type="text" id="set-market-name" value="Supermercado Club Matriz">
+                                <label>Nome da Rede / Loja</label>
+                                <input type="text" id="set-market-name" value="Supermercado Super Econômica">
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
@@ -1050,6 +1200,14 @@
 
             </div>
         </div>
+    </div>
+
+    <div class="mobile-bottom-nav">
+        <a href="#" onclick="switchTab('dashboard', event); return false;" class="active"><i class="fa-solid fa-chart-pie"></i>Início</a>
+        <a href="#" onclick="switchTab('customers', event); return false;"><i class="fa-solid fa-users"></i>Clientes</a>
+        <a href="#" onclick="switchTab('purchases', event); return false;"><i class="fa-solid fa-cash-register"></i>Caixa</a>
+        <a href="#" onclick="switchTab('rewards', event); return false;"><i class="fa-solid fa-gift"></i>Prêmios</a>
+        <a href="#" onclick="switchTab('clientPortal', event); return false;"><i class="fa-solid fa-user-shield"></i>Portal</a>
     </div>
 
     <div class="modal-overlay" id="modal-customer">
@@ -1128,7 +1286,6 @@
     <div id="toast-container"></div>
 
     <script>
-        // Banco de Dados Local (localStorage)
         let db = {
             customers: [],
             purchases: [],
@@ -1137,13 +1294,12 @@
             campaigns: [],
             coupons: [],
             products: [],
-            settings: { marketName: "Supermercado Club", pointRule: 1.0, validityMonths: 12 },
+            settings: { marketName: "Super Econômica", pointRule: 1.0, validityMonths: 12 },
             notifications: []
         };
 
-        // Inicialização de Dados Mock se vazio
         function initDatabase() {
-            const saved = localStorage.getItem('supermercado_club_db');
+            const saved = localStorage.getItem('super_economica_club_db');
             if (saved) {
                 db = JSON.parse(saved);
             } else {
@@ -1170,65 +1326,70 @@
             ];
 
             db.purchases = [
-                { id: 101, cupom: "CUP-45872", cpf: "111.222.333-44", clientName: "Ana Beatriz Souza", date: "2026-08-16 14:32", value: 150.00, points: 150, operator: "Carlos Silva" },
-                { id: 102, cupom: "CUP-45890", cpf: "222.333.444-55", clientName: "Carlos Eduardo Lima", date: "2026-08-16 16:10", value: 320.00, points: 320, operator: "Ana Paula" },
-                { id: 103, cupom: "CUP-45912", cpf: "333.444.555-66", clientName: "Mariana Costa Ribeiro", date: "2026-08-17 09:15", value: 500.00, points: 500, operator: "Carlos Silva" }
+                { id: 101, cupom: "CUP-45872", cpf: "111.222.333-44", clientName: "Ana Beatriz Souza", date: "2026-08-16 14:32", value: 150.00, points: 150, operator: "Mariana Atendente" },
+                { id: 102, cupom: "CUP-45890", cpf: "222.333.444-55", clientName: "Carlos Eduardo Lima", date: "2026-08-16 16:10", value: 320.00, points: 320, operator: "Carlos Silva" },
+                { id: 103, cupom: "CUP-45912", cpf: "333.444.555-66", clientName: "Mariana Costa Ribeiro", date: "2026-08-17 09:15", value: 500.00, points: 500, operator: "Mariana Atendente" }
             ];
 
             db.rewards = [
-                { id: 1, name: "R$ 5 de Desconto", points: 100, stock: 50 },
-                { id: 2, name: "R$ 25 de Desconto", points: 500, stock: 30 },
-                { id: 3, name: "R$ 60 de Desconto", points: 1000, stock: 15 },
-                { id: 4, name: "Cesta Básica Especial", points: 2500, stock: 5 }
+                { id: 1, name: "R$ 10 de Desconto", points: 500, stock: 45 },
+                { id: 2, name: "R$ 25 de Desconto", points: 1000, stock: 30 },
+                { id: 3, name: "R$ 50 de Desconto", points: 2000, stock: 15 },
+                { id: 4, name: "Cesta Básica Super Econômica", points: 3500, stock: 8 }
             ];
 
             db.redemptions = [
-                { id: 1, code: "CLUB-8F72K9", client: "Ana Beatriz Souza", reward: "R$ 25 de Desconto", points: 500, date: "2026-08-15", status: "Disponível" }
+                { id: 1, code: "SE-8F72K9", client: "Ana Beatriz Souza", reward: "R$ 25 de Desconto", points: 1000, date: "2026-08-15", status: "Disponível" }
             ];
 
             db.campaigns = [
-                { id: 1, name: "Semana do Cliente", period: "10/08/2026 a 20/08/2026", multiplier: "2x", target: "Todos", status: "Ativa" },
-                { id: 2, name: "Festival de Carnes", period: "18/08/2026 a 25/08/2026", multiplier: "3x", target: "Categoria Carnes", status: "Agendada" }
+                { id: 1, name: "Terça Verde & Hortifruti", period: "18/08/2026 a 18/08/2026", multiplier: "2x", target: "Hortifruti", status: "Ativa" },
+                { id: 2, name: "Aniversário Super Econômica", period: "01/09/2026 a 30/09/2026", multiplier: "3x", target: "Todos", status: "Agendada" }
             ];
 
             db.coupons = [
-                { id: 1, code: "BEMVINDO5", title: "Cupom de Boas-Vindas", discount: "R$ 5,00", validity: "31/12/2026", usage: "1 uso por cliente" },
-                { id: 2, code: "FESTIVAL10", title: "Desconto Hortifruti", discount: "10%", validity: "25/08/2026", usage: "Público geral" }
+                { id: 1, code: "ECONOMICA10", title: "Desconto Especial", discount: "R$ 10,00", validity: "31/12/2026", usage: "1 uso por cliente" },
+                { id: 2, code: "FESTIVAL2X", title: "Pontos em Dobro", discount: "2x Pontos", validity: "25/08/2026", usage: "Público geral" }
             ];
 
             db.products = [
-                { id: 1, ean: "7891000123456", name: "Arroz Tio João 5kg", category: "Mercearia", price: 28.90, multiplier: "1x" },
-                { id: 2, ean: "7891000654321", name: "Café Pilão 500g", category: "Mercearia", price: 19.80, multiplier: "2x" }
+                { id: 1, ean: "7891000123456", name: "Arroz Tipo 1 5kg Super Econômica", category: "Mercearia", price: 24.90, multiplier: "1x" },
+                { id: 2, ean: "7891000654321", name: "Leite Integral 1L", category: "Laticínios", price: 5.49, multiplier: "2x" }
             ];
 
             db.notifications = [
-                { id: 1, text: "Ana Beatriz ganhou 150 pontos!", date: "Ontem" },
-                { id: 2, text: "Carlos Eduardo atingiu o nível Bronze.", date: "Ontem" },
-                { id: 3, text: "Nova campanha 'Semana do Cliente' iniciada.", date: "Hoje" },
-                { id: 4, text: "Cupom BEMVINDO5 utilizado com sucesso.", date: "Hoje" }
+                { id: 1, text: "🎉 Ana Beatriz ganhou 150 pontos!", date: "Ontem" },
+                { id: 2, text: "⭐ Carlos Eduardo atingiu o nível Bronze.", date: "Ontem" },
+                { id: 3, text: "🚀 Nova campanha 'Terça Verde' iniciada.", date: "Hoje" },
+                { id: 4, text: "🎁 Cupom ECONOMICA10 validado.", date: "Hoje" }
             ];
 
             saveDatabase();
         }
 
         function saveDatabase() {
-            localStorage.setItem('supermercado_club_db', JSON.stringify(db));
+            localStorage.setItem('super_economica_club_db', JSON.stringify(db));
         }
 
-        // Navegação entre Abas
         function switchTab(tabId, event) {
             if (event) event.preventDefault();
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.mobile-bottom-nav a').forEach(el => el.classList.remove('active'));
             
             document.getElementById('tab-' + tabId).classList.add('active');
-            if (event && event.currentTarget) {
-                event.currentTarget.parentElement.classList.add('active');
-            }
+            
+            // Ativar na sidebar se existir
+            const sideItem = document.querySelector(`.sidebar-menu li a[onclick*="${tabId}"]`);
+            if(sideItem) sideItem.parentElement.classList.add('active');
+
+            // Ativar no bottom nav mobile se existir
+            const bottomItem = document.querySelector(`.mobile-bottom-nav a[onclick*="${tabId}"]`);
+            if(bottomItem) bottomItem.classList.add('active');
+
             if(tabId === 'dashboard') updateDashboard();
         }
 
-        // Toast de Feedback
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1242,7 +1403,6 @@
             setTimeout(() => toast.remove(), 3000);
         }
 
-        // Atualizar Dashboard e Estatísticas
         let chartEvolucaoInstance = null;
         let chartNiveisInstance = null;
 
@@ -1259,7 +1419,6 @@
 
             document.getElementById('dashboard-date').innerText = new Date().toLocaleDateString('pt-BR', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
 
-            // Tabela de compras recentes no dashboard
             const tbody = document.getElementById('dashboard-recent-purchases');
             tbody.innerHTML = db.purchases.slice(-5).reverse().map(p => `
                 <tr>
@@ -1276,7 +1435,6 @@
         }
 
         function renderCharts() {
-            // Gráfico de Evolução
             const ctx1 = document.getElementById('chartEvolucao').getContext('2d');
             if(chartEvolucaoInstance) chartEvolucaoInstance.destroy();
             chartEvolucaoInstance = new Chart(ctx1, {
@@ -1285,9 +1443,9 @@
                     labels: ['Maio', 'Junho', 'Julho', 'Agosto'],
                     datasets: [{
                         label: 'Pontos Distribuídos',
-                        data: [1200, 3100, 4800, 6500],
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        data: [1500, 3200, 5100, 7800],
+                        borderColor: '#E63946',
+                        backgroundColor: 'rgba(230, 57, 70, 0.1)',
                         fill: true,
                         tension: 0.3
                     }]
@@ -1295,7 +1453,6 @@
                 options: { responsive: true, plugins: { legend: { display: false } } }
             });
 
-            // Gráfico de Níveis
             const levelsCount = { BRONZE: 0, PRATA: 0, OURO: 0, DIAMANTE: 0 };
             db.customers.forEach(c => { if(levelsCount[c.level] !== undefined) levelsCount[c.level]++; });
 
@@ -1307,14 +1464,13 @@
                     labels: ['Bronze', 'Prata', 'Ouro', 'Diamante'],
                     datasets: [{
                         data: [levelsCount.BRONZE, levelsCount.PRATA, levelsCount.OURO, levelsCount.DIAMANTE],
-                        backgroundColor: ['#F59E0B', '#94A3B8', '#EAB308', '#0284C7']
+                        backgroundColor: ['#E6CCB2', '#E9ECEF', '#FFB703', '#3A86FF']
                     }]
                 },
                 options: { responsive: true }
             });
         }
 
-        // Clientes
         function renderCustomers() {
             const tbody = document.getElementById('customers-table-body');
             document.getElementById('customer-count-label').innerText = `Total: ${db.customers.length} clientes`;
@@ -1326,8 +1482,8 @@
                     <td><span class="badge badge-${c.level.toLowerCase()}">${c.level}</span></td>
                     <td><strong>${c.points} pts</strong></td>
                     <td>
-                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 12px;" onclick="editCustomer(${c.id})"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteCustomer(${c.id})"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 11px;" onclick="editCustomer(${c.id})"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 11px;" onclick="deleteCustomer(${c.id})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             `).join('');
@@ -1361,12 +1517,12 @@
                 showToast('Cliente atualizado com sucesso!');
             } else {
                 if(db.customers.some(c => c.cpf === cpf)) {
-                    showToast('Este CPF já está cadastrado!', 'error');
+                    showToast('Este CPF já está cadastrado no Super Econômica!', 'error');
                     return;
                 }
                 const newC = { id: Date.now(), name, cpf, phone, email, points: 0, totalSpent: 0, level: 'BRONZE' };
                 db.customers.push(newC);
-                showToast('Cliente cadastrado com sucesso!');
+                showToast('🎉 Cliente cadastrado com sucesso!');
             }
             saveDatabase();
             closeModal('modal-customer');
@@ -1393,7 +1549,7 @@
                 saveDatabase();
                 renderCustomers();
                 updateDashboard();
-                showToast('Cliente excluído com sucesso.', 'warning');
+                showToast('Cliente excluído.', 'warning');
             }
         }
 
@@ -1406,7 +1562,6 @@
             });
         }
 
-        // Registro de Compras e Pontuação
         function lookupCustomerForPurchase(cpf) {
             const customer = db.customers.find(c => c.cpf === cpf);
             const infoBox = document.getElementById('purchase-customer-info');
@@ -1445,7 +1600,6 @@
             customer.points += pointsEarned;
             customer.totalSpent += valor;
 
-            // Atualização de Nível baseada em pontos acumulados
             if(customer.points >= 10000) customer.level = 'DIAMANTE';
             else if(customer.points >= 5000) customer.level = 'OURO';
             else if(customer.points >= 1000) customer.level = 'PRATA';
@@ -1464,14 +1618,13 @@
 
             db.purchases.push(newPurchase);
             saveDatabase();
-            showToast(`Compra registrada com sucesso! +${pointsEarned} pontos adicionados.`);
+            showToast(`🎉 Compra registrada com sucesso! +${pointsEarned} pontos adicionados.`);
             document.getElementById('purchase-form').reset();
             document.getElementById('purchase-customer-info').style.display = 'none';
             document.getElementById('p-estimated-points').innerText = '0 Pontos';
             updateDashboard();
         }
 
-        // Recompensas
         function renderRewards() {
             const grid = document.getElementById('rewards-grid-container');
             grid.innerHTML = db.rewards.map(r => `
@@ -1479,11 +1632,11 @@
                     <div class="reward-img"><i class="fa-solid fa-gift"></i></div>
                     <div class="reward-body">
                         <div>
-                            <h4 style="font-size: 16px; color: var(--secondary); margin-bottom: 5px;">${r.name}</h4>
-                            <div style="font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">${r.points} Pontos</div>
-                            <p style="font-size: 12px; color: var(--text-muted);">Disponível em estoque: ${r.stock}</p>
+                            <h4 style="font-size: 15px; color: var(--secondary); margin-bottom: 5px;">${r.name}</h4>
+                            <div style="font-size: 17px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">${r.points} Pontos</div>
+                            <p style="font-size: 11px; color: var(--text-muted);">Estoque: ${r.stock} disponíveis</p>
                         </div>
-                        <button class="btn" style="width: 100%; justify-content: center; margin-top: 15px;" onclick="redeemRewardPrompt(${r.id})">Resgatar</button>
+                        <button class="btn btn-accent" style="width: 100%; justify-content: center; margin-top: 15px;" onclick="redeemRewardPrompt(${r.id})">Resgatar Prêmio</button>
                     </div>
                 </div>
             `).join('');
@@ -1518,14 +1671,14 @@
             }
 
             if(customer.points < reward.points) {
-                showToast('Saldo de pontos insuficiente para este resgate!', 'error');
+                showToast('Saldo insuficiente para resgatar esta recompensa!', 'error');
                 return;
             }
 
             customer.points -= reward.points;
             reward.stock -= 1;
 
-            const code = 'CLUB-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            const code = 'SE-' + Math.random().toString(36).substring(2, 8).toUpperCase();
             db.redemptions.push({
                 id: Date.now(),
                 code,
@@ -1540,10 +1693,9 @@
             renderRedemptions();
             renderRewards();
             updateDashboard();
-            showToast(`Resgate efetuado com sucesso! Código: ${code}`);
+            showToast(`🎁 Recompensa resgatada com sucesso! Código: ${code}`);
         }
 
-        // Resgates Listagem
         function renderRedemptions() {
             const tbody = document.getElementById('redemptions-table-body');
             tbody.innerHTML = db.redemptions.map(r => `
@@ -1554,7 +1706,7 @@
                     <td>-${r.points} pts</td>
                     <td>${r.date}</td>
                     <td><span class="badge badge-active">${r.status}</span></td>
-                    <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 11px;" onclick="useRedemption('${r.code}')">Marcar Usado</button></td>
+                    <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 11px;" onclick="useRedemption('${r.code}')">Marcar Utilizado</button></td>
                 </tr>
             `).join('');
         }
@@ -1565,11 +1717,10 @@
                 r.status = 'Utilizado';
                 saveDatabase();
                 renderRedemptions();
-                showToast('Cupom de resgate marcado como utilizado.');
+                showToast('Resgate marcado como utilizado.');
             }
         }
 
-        // Campanhas
         function renderCampaigns() {
             const tbody = document.getElementById('campaigns-table-body');
             tbody.innerHTML = db.campaigns.map(c => `
@@ -1583,15 +1734,14 @@
             `).join('');
         }
         function openCampaignModal() {
-            const name = prompt("Nome da Nova Campanha:");
+            const name = prompt("Nome da Campanha:");
             if(!name) return;
-            db.campaigns.push({ id: Date.now(), name, period: "Ativa por tempo limitado", multiplier: "2x", target: "Todos", status: "Ativa" });
+            db.campaigns.push({ id: Date.now(), name, period: "Por tempo limitado", multiplier: "2x", target: "Todos", status: "Ativa" });
             saveDatabase();
             renderCampaigns();
-            showToast('Campanha criada com sucesso!');
+            showToast('Campanha criada!');
         }
 
-        // Cupons
         function renderCoupons() {
             const tbody = document.getElementById('coupons-table-body');
             tbody.innerHTML = db.coupons.map(c => `
@@ -1605,15 +1755,14 @@
             `).join('');
         }
         function openCouponModal() {
-            const code = prompt("Código do Cupom (ex: DESCONTO10):");
+            const code = prompt("Código do Cupom:");
             if(!code) return;
-            db.coupons.push({ id: Date.now(), code: code.toUpperCase(), title: "Cupom Promocional", discount: "R$ 10,00", validity: "31/12/2026", usage: "Público geral" });
+            db.coupons.push({ id: Date.now(), code: code.toUpperCase(), title: "Cupom Promocional", discount: "R$ 15,00", validity: "31/12/2026", usage: "Público geral" });
             saveDatabase();
             renderCoupons();
-            showToast('Cupom criado com sucesso!');
+            showToast('Cupom criado!');
         }
 
-        // Produtos
         function renderProducts() {
             const tbody = document.getElementById('products-table-body');
             tbody.innerHTML = db.products.map(p => `
@@ -1629,13 +1778,12 @@
         function openProductModal() {
             const name = prompt("Nome do Produto:");
             if(!name) return;
-            db.products.push({ id: Date.now(), ean: "789" + Math.floor(Math.random()*1000000000), name, category: "Mercearia", price: 15.00, multiplier: "1x" });
+            db.products.push({ id: Date.now(), ean: "789" + Math.floor(Math.random()*1000000000), name, category: "Mercearia", price: 10.00, multiplier: "1x" });
             saveDatabase();
             renderProducts();
-            showToast('Produto cadastrado com sucesso!');
+            showToast('Produto cadastrado!');
         }
 
-        // Relatórios
         function renderReports() {
             const totalSales = db.purchases.reduce((acc, p) => acc + p.value, 0);
             const ticketMedio = db.purchases.length > 0 ? totalSales / db.purchases.length : 0;
@@ -1656,10 +1804,9 @@
         }
 
         function exportReport(format) {
-            showToast(`Relatório exportado com sucesso em ${format}!`);
+            showToast(`Relatório exportado em ${format} com sucesso!`);
         }
 
-        // Área do Cliente
         function initClientPortalSelector() {
             const select = document.getElementById('portal-customer-select');
             select.innerHTML = db.customers.map(c => `<option value="${c.id}">${c.name} (${c.cpf})</option>`).join('');
@@ -1674,39 +1821,38 @@
 
             document.getElementById('portal-client-name').innerText = customer.name;
             document.getElementById('portal-client-cpf').innerText = customer.cpf;
-            document.getElementById('portal-client-level').innerText = customer.level;
-            document.getElementById('portal-client-level').className = `badge badge-${customer.level.toLowerCase()}`;
+            document.getElementById('portal-client-level-badge').innerText = 'NÍVEL ' + customer.level;
             document.getElementById('portal-client-points').innerText = customer.points + ' PTS';
 
-            // Extrato do cliente
+            const needed = customer.level === 'DIAMANTE' ? 'Meta máxima atingida! 🏆' : 'Você está a 350 pontos do próximo nível!';
+            document.getElementById('portal-progress-text').innerText = needed;
+
             const purchases = db.purchases.filter(p => p.cpf === customer.cpf);
             const redemptions = db.redemptions.filter(r => r.client === customer.name);
 
             let statementHTML = '';
             purchases.forEach(p => {
-                statementHTML += `<tr><td>${p.date}</td><td>Compra Cupom #${p.cupom}</td><td style="color:var(--success)">+${p.points} pts</td></tr>`;
+                statementHTML += `<tr><td>${p.date}</td><td>Compra Cupom #${p.cupom}</td><td style="color:var(--success); font-weight:600;">+${p.points} pts</td></tr>`;
             });
             redemptions.forEach(r => {
-                statementHTML += `<tr><td>${r.date}</td><td>Resgate: ${r.reward}</td><td style="color:var(--danger)">-${r.points} pts</td></tr>`;
+                statementHTML += `<tr><td>${r.date}</td><td>Resgate: ${r.reward}</td><td style="color:var(--danger); font-weight:600;">-${r.points} pts</td></tr>`;
             });
             if(statementHTML === '') statementHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted)">Nenhuma movimentação registrada.</td></tr>`;
             
             document.getElementById('portal-statement-body').innerHTML = statementHTML;
 
-            // Gerar QR Code do Cliente
             const qrBox = document.getElementById('client-qrcode-box');
             qrBox.innerHTML = '';
             new QRCode(qrBox, {
-                text: `SUPERMERCADO-CLUB-CPF:${customer.cpf}`,
-                width: 110,
-                height: 110,
-                colorDark: "#1E293B",
+                text: `SUPER-ECONOMICA-CPF:${customer.cpf}`,
+                width: 100,
+                height: 100,
+                colorDark: "#1D3557",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
         }
 
-        // Configurações
         function saveSettings(event) {
             event.preventDefault();
             db.settings.marketName = document.getElementById('set-market-name').value;
@@ -1716,26 +1862,24 @@
             showToast('Configurações salvas com sucesso!');
         }
 
-        // Notificações
         function updateNotificationsBadge() {
             document.getElementById('notif-count').innerText = db.notifications.length;
         }
 
         function openNotificationsModal() {
-            const list = db.notifications.map(n => `• ${n.text} (${n.date})`).join('\n');
-            alert("Central de Notificações:\n\n" + list);
+            const list = db.notifications.map(n => `${n.text} (${n.date})`).join('\n\n');
+            alert("🔔 Notificações do Super Econômica:\n\n" + list);
         }
 
-        // Menu Mobile Toggle
         function toggleMobileMenu() {
             document.getElementById('sidebar').classList.toggle('mobile-open');
         }
 
         function resetDemoData() {
-            if(confirm('Deseja restaurar todos os dados de demonstração iniciais?')) {
-                localStorage.removeItem('supermercado_club_db');
+            if(confirm('Deseja restaurar os dados de demonstração do Super Econômica?')) {
+                localStorage.removeItem('super_economica_club_db');
                 initDatabase();
-                showToast('Dados de demonstração restaurados com sucesso!', 'warning');
+                showToast('Dados restaurados com sucesso!', 'warning');
             }
         }
 
@@ -1747,14 +1891,13 @@
                     switchTab('clientPortal', null);
                     document.getElementById('portal-customer-select').value = found.id;
                     loadClientPortalData(found.id);
-                    showToast(`Cliente ${found.name} localizado com sucesso!`);
+                    showToast(`Cliente ${found.name} localizado no portal!`);
                 } else {
                     showToast('Nenhum cliente encontrado.', 'error');
                 }
             }
         }
 
-        // Inicializar aplicação ao carregar a página
         window.onload = function() {
             initDatabase();
         };
